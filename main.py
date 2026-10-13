@@ -1,192 +1,157 @@
 from datetime import datetime
-import random
-#(Vaste waarden / Constanten)
-huidig_jaar = 2026
-kost_toegang = 5
-kost_gok_belasting = 15
-kost_leeftijd_check = 1
-kost_vast = kost_toegang + kost_gok_belasting + kost_leeftijd_check
-kost_transactie = 0.01
-min_leeftijd = 18
+import Library.fixed_values as const
+import Library.Functions as calc
 
-#FUNCTIES
-def berekening_transactie(som_transactie):
-    return som_transactie + kost_transactie
-def berekening_Saldo(startbudget,som_transactie):
-    saldo = startbudget - sum([kost_gok_belasting,kost_toegang,som_transactie,kost_leeftijd_check])
-    return saldo
-def spin():
-    spin_getal = random.randint(0,36)
-    if spin_getal == 0:
-        kleur = 'groen'
-        type_getal = 'geen'
-    else:
-        if spin_getal <= 18:
-            if spin_getal % 2 == 0:
-                kleur = 'zwart'
-                type_getal = 'even'
-            else:
-                kleur = 'rood'
-                type_getal ='oneven'
-        else:
-            if spin_getal % 2 == 0:
-                kleur = 'rood'
-                type_getal = 'even'
-            else:
-                kleur = 'zwart'
-                type_getal = 'oneven'
-    return spin_getal, kleur, type_getal
-
-som_transactie = 0
-totale_winst_of_verlies = 0
-optie_spel = ""
-eerste_keer_spel = True
+sum_transaction = 0
+total_profit_or_loss = 0
+roulette_selection = ""
+first_game = True
 
 print(f'Welkom bij Casino de Gouden Lepel')
 
-voornaam = input(f'Wat is uw Voornaam ? ')
-som_transactie = berekening_transactie(som_transactie)
+first_name = input(f'Wat is uw Voornaam ? ')
+sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
-achternaam = input(f'Wat is uw Achternaam ? ')
-som_transactie = berekening_transactie(som_transactie)
+surname = input(f'Wat is uw Achternaam ? ')
+sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
-geboortedatum = input(f'Wat is u geboortedatum ? (dd-mm-yyyy) ')
-som_transactie = berekening_transactie(som_transactie)
+date_of_birth = input(f'Wat is u geboortedatum ? (dd-mm-yyyy) ')
+sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
-email_adres = input(f'Wat is u email adres? ')
-som_transactie = berekening_transactie(som_transactie)
+email_address = input(f'Wat is u email adres? ')
+sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
-geslacht = input(f'Wat is u geslacht ? (man of vrouw) ')
-som_transactie = berekening_transactie(som_transactie)
+gender = input(f'Wat is u geslacht ? (M/W/X) ').upper()
+sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
-if geslacht == 'man':
-    aanspreekvorm = f'meneer {achternaam}'
-elif geslacht == 'vrouw':
-    aanspreekvorm = f'mevrouw {achternaam}'
+if gender == 'M':
+    form_of_adress = f'meneer {surname}'
+elif gender == 'W':
+    form_of_adress = f'mevrouw {surname}'
 else:
-    aanspreekvorm = f'{voornaam} {achternaam}'
+    form_of_adress = f'{first_name} {surname}'
 
-uur = datetime.now().hour
-if uur < 11:
-    begroeting = 'Goedemorgen'
-elif uur < 18:
-    begroeting = 'Goedemiddag'
+hour = datetime.now().hour
+if hour < 11:
+    greeting = 'Goedemorgen'
+elif hour < 18:
+    greeting = 'Goedemiddag'
 else:
-    begroeting = 'Goedeavond'
-birth_day, birth_month, birth_year = geboortedatum.split("-")
-if huidig_jaar - int(birth_year) < min_leeftijd:
-    factuur = sum([kost_toegang,kost_leeftijd_check,som_transactie])
+    greeting = 'Goedeavond'
+birth_day, birth_month, birth_year = date_of_birth.split("-")
+if const.CURRENT_YEAR - int(birth_year) < const.MIN_AGE:
+    invoice = sum([const.COST_ENTRY, const.COST_AGE_CHECK, sum_transaction])
     print('Casino de Gouden Lepel')
     print('--------------------------------------------------------------------------------')
-    print(f'Sorry {voornaam} je bent te jong om te gokken, de minium leeftijd is {min_leeftijd} jaar oud '
-          f'\nDe factuur van € {factuur} wordt verzonden naar het door u opgegeven e-mailadres {email_adres} '
+    print(f'Sorry {first_name} je bent te jong om te gokken, de minium leeftijd is {const.MIN_AGE} jaar oud '
+          f'\nDe factuur van € {invoice} wordt verzonden naar het door u opgegeven e-mailadres {email_address} '
           f'\nIndien de factuur niet binnen 7 werkdagen na ontvangst is betaald, behouden wij ons het recht voor om '
           f'gerechtelijke stappen te ondernemen om het openstaande bedrag te innen. '
           f'\nNog een fijne dag gewenst')
     exit(1)
 
 
-startbudget = float(input(f'{begroeting} {aanspreekvorm}, \nHoeveel euro(€) heeft u vandaag te spenderen? '))
-som_transactie = berekening_transactie(som_transactie)
-saldo = berekening_Saldo(startbudget,som_transactie)
-factuur = startbudget - saldo
+startbudget = float(input(f'{greeting} {form_of_adress}, \nHoeveel euro(€) heeft u vandaag te spenderen? '))
+sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+saldo = calc.calculate_saldo(startbudget, sum_transaction)
+invoice = startbudget - saldo
 
 
 while saldo >= 0:
     print('Casino de Gouden Lepel')
     print('--------------------------------------------------------------------------------')
-    if eerste_keer_spel:
-        print(f'Welkom, {aanspreekvorm}')
-        eerste_keer_spel = False
+    if first_game:
+        print(f'Welkom, {form_of_adress}')
+        first_game = False
     else:
-        if totale_winst_of_verlies <= 0:
-            print(f"Verlies:        € {-totale_winst_of_verlies:.2f} ")
+        if total_profit_or_loss <= 0:
+            print(f"Verlies:        € {-total_profit_or_loss:.2f} ")
         else:
-            print(f"Winst:          € {totale_winst_of_verlies:.2f} ")
+            print(f"Winst:          € {total_profit_or_loss:.2f} ")
 
     print(f"Startbudget:        € {startbudget:.2f} ")
-    print(f"Vaste kosten:       € {kost_vast:.2f} ")
-    print(f"Transactie kosten:  € {som_transactie:.2f} ")
+    print(f"Vaste kosten:       € {const.COST_FIXED:.2f} ")
+    print(f"Transactie kosten:  € {sum_transaction:.2f} ")
     print(f"Saldo:              € {saldo:.2f}")
     print(f'\nJe hebt nog genoeg budget voor toegang tot het casino.')
 
-    optie_spel = ""
-    while optie_spel not in ['1', '2', '3', '4', 'rood', 'zwart', 'even', 'oneven', '0', 'stop']:
-        optie_spel = input(f"Kies één van de volgende opties:"
+    roulette_selection = ""
+    while roulette_selection not in ['1', '2', '3', '4', 'rood', 'zwart', 'even', 'oneven', '0', 'stop']:
+        roulette_selection = input(f"Kies één van de volgende opties:"
                        f"\n1. Rood"
                        f"\n2. Zwart"
                        f"\n3. Even"
                        f"\n4. Oneven"
                        f"\n0. Stop \n").lower()
-        som_transactie = berekening_transactie(som_transactie)
-        if optie_spel in ['1' , 'rood']:
-            optie_spel = '1'
+        sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+        if roulette_selection in ['1' , 'rood']:
+            roulette_selection = '1'
             break
-        elif optie_spel in ['2' , 'zwart']:
-            optie_spel = '2'
+        elif roulette_selection in ['2' , 'zwart']:
+            roulette_selection = '2'
             break
-        elif optie_spel in ['3' , 'even']:
-            optie_spel = '3'
+        elif roulette_selection in ['3' , 'even']:
+            roulette_selection = '3'
             break
-        elif optie_spel in ['4' , 'oneven']:
-            optie_spel = '4'
+        elif roulette_selection in ['4' , 'oneven']:
+            roulette_selection = '4'
             break
-        elif optie_spel in ['0' , 'stop']:
-            optie_spel = 0
+        elif roulette_selection in ['0' , 'stop']:
+            roulette_selection = 0
             break
         else:
             continue
-    if optie_spel == 0:
+    if roulette_selection == 0:
         saldo = 0
         continue
-    inzet = float(input(f'Hoeveel euro wil je inzetten? '))
-    som_transactie = berekening_transactie(som_transactie)
-    saldo -= kost_transactie
-    if inzet <= 0:
+    stake = float(input(f'Hoeveel euro wil je inzetten? '))
+    sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+    saldo -= const.TRANSACTION_COSTS
+    if stake <= 0:
         print(f'Je inzet moet hoger dan € 0 zijn ')
         continue
-    elif inzet > saldo:
-        print(f'Jouw {inzet:.2f} is hoger dan je {saldo:.2f}')
+    elif stake > saldo:
+        print(f'Jouw {stake:.2f} is hoger dan je {saldo:.2f}')
         continue
     else:
-        saldo -= inzet
-        spin_getal, kleur, type_getal = spin()
-        print(f'[SPIN] \nHet balletje landt op: {spin_getal} ({kleur.upper()}, {type_getal})')
+        saldo -= stake
+        spin_number, color, parity = calc.spin()
+        print(f'[SPIN] \nHet balletje landt op: {spin_number} ({color.upper()}, {parity})')
         win = False
-        if optie_spel == '1' and kleur == 'rood':
+        if roulette_selection == '1' and color == 'rood':
             win = True
-        elif optie_spel == '2' and kleur == 'zwart':
+        elif roulette_selection == '2' and color == 'zwart':
             win = True
-        elif optie_spel == '3' and type_getal == 'even':
+        elif roulette_selection == '3' and parity == 'even':
             win = True
-        elif optie_spel == '4' and type_getal == 'oneven':
+        elif roulette_selection == '4' and parity == 'oneven':
             win = True
         if win:
-            winst = inzet * 2
-            saldo += winst
-            totale_winst_of_verlies += winst
-            print(f'Proficiat! je hebt € {winst:.2f} gewonnen!')
+            profit = stake * 2
+            saldo += profit
+            total_profit_or_loss += profit
+            print(f'Proficiat! je hebt € {profit:.2f} gewonnen!')
 
         else:
-            print(f'Je bent je inzet van € {inzet:.2f} kwijt.')
-            totale_winst_of_verlies -= inzet
+            print(f'Je bent je inzet van € {stake:.2f} kwijt.')
+            total_profit_or_loss -= stake
 
-totale_kosten = sum([kost_gok_belasting,kost_leeftijd_check,kost_toegang,som_transactie])
-if totale_winst_of_verlies > totale_kosten:
-    eind_saldo = startbudget + totale_winst_of_verlies - totale_kosten
+totale_kosten = sum([const.COST_GAMBLING_TAX, const.COST_AGE_CHECK, const.COST_ENTRY, sum_transaction])
+if total_profit_or_loss > totale_kosten:
+    eind_saldo = startbudget + total_profit_or_loss - totale_kosten
     print('Casino de Gouden Lepel')
     print('--------------------------------------------------------------------------------')
-    print(f"Beste, {aanspreekvorm}!")
-    print(f"U heeft in totaal € {totale_winst_of_verlies:.2f} gewonnen aan de roulette tafel.")
+    print(f"Beste, {form_of_adress}!")
+    print(f"U heeft in totaal € {total_profit_or_loss:.2f} gewonnen aan de roulette tafel.")
     print(f"Na aftrek van de vaste kosten en transactie kosten (€ {totale_kosten:.2f}) ")
     print(f"Gaat u naar huis met een prachtig eindbedrag van: € {eind_saldo:.2f}!")
     print("\nEr wordt uiteraard GEEN factuur naar u verzonden.")
-    print(f"We zullen u een mail sturen naar {email_adres} zodat wij het gewonnen bedrag € {eind_saldo:.2f} kunnen door storten op u rekening ")
+    print(f"We zullen u een mail sturen naar {email_address} zodat wij het gewonnen bedrag € {eind_saldo:.2f} kunnen door storten op u rekening ")
 else:
-    factuur = totale_kosten - totale_winst_of_verlies
+    invoice = totale_kosten - total_profit_or_loss
     print('Casino de Gouden Lepel')
     print('--------------------------------------------------------------------------------')
-    print(f"Uw budget van € {startbudget:.2f} is opgebruikt. \nDe factuur van € {factuur:.2f} wordt verzonden naar het door u opgegeven e-mailadres {email_adres} "
+    print(f"Uw budget van € {startbudget:.2f} is opgebruikt. \nDe factuur van € {invoice:.2f} wordt verzonden naar het door u opgegeven e-mailadres {email_address} "
           f"\nIndien de factuur niet binnen 7 werkdagen na ontvangst is betaald, behouden wij ons het recht voor om "
           f"gerechtelijke stappen te ondernemen om het openstaande bedrag te innen. "
           f"\nNog een fijne dag gewenst")
