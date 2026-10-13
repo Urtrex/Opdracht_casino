@@ -6,6 +6,7 @@ sum_transaction = 0
 total_profit_or_loss = 0
 roulette_selection = ""
 first_game = True
+stop_playing = False
 
 print(f'Welkom bij Casino de Gouden Lepel')
 
@@ -21,12 +22,12 @@ sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 email_address = input(f'Wat is u email adres? ')
 sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
-gender = input(f'Wat is u geslacht ? (M/W/X) ').upper()
+gender = input(f'Wat is u geslacht ? (M/V/X) ').upper()
 sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
 if gender == 'M':
     form_of_adress = f'meneer {surname}'
-elif gender == 'W':
+elif gender == 'V':
     form_of_adress = f'mevrouw {surname}'
 else:
     form_of_adress = f'{first_name} {surname}'
@@ -57,7 +58,7 @@ saldo = calc.calculate_saldo(startbudget, sum_transaction)
 invoice = startbudget - saldo
 
 
-while saldo >= 0:
+while saldo >= 0 and not stop_playing:
     print('Casino de Gouden Lepel')
     print('--------------------------------------------------------------------------------')
     if first_game:
@@ -102,7 +103,7 @@ while saldo >= 0:
         else:
             continue
     if roulette_selection == 0:
-        saldo = 0
+        stop_playing = True
         continue
     stake = float(input(f'Hoeveel euro wil je inzetten? '))
     sum_transaction = calc.calculate_transaction_cost(sum_transaction)
@@ -136,22 +137,33 @@ while saldo >= 0:
             print(f'Je bent je inzet van € {stake:.2f} kwijt.')
             total_profit_or_loss -= stake
 
-totale_kosten = sum([const.COST_GAMBLING_TAX, const.COST_AGE_CHECK, const.COST_ENTRY, sum_transaction])
-if total_profit_or_loss > totale_kosten:
-    eind_saldo = startbudget + total_profit_or_loss - totale_kosten
+saldo = calc.calculate_saldo(startbudget, sum_transaction) + total_profit_or_loss
+total_cost = sum([const.COST_GAMBLING_TAX, const.COST_AGE_CHECK, const.COST_ENTRY, sum_transaction])
+if total_profit_or_loss > total_cost:
+    eind_saldo = startbudget + total_profit_or_loss - total_cost
     print('Casino de Gouden Lepel')
     print('--------------------------------------------------------------------------------')
     print(f"Beste, {form_of_adress}!")
     print(f"U heeft in totaal € {total_profit_or_loss:.2f} gewonnen aan de roulette tafel.")
-    print(f"Na aftrek van de vaste kosten en transactie kosten (€ {totale_kosten:.2f}) ")
+    print(f"Na aftrek van de vaste kosten en transactie kosten (€ {total_cost:.2f}) ")
     print(f"Gaat u naar huis met een prachtig eindbedrag van: € {eind_saldo:.2f}!")
     print("\nEr wordt uiteraard GEEN factuur naar u verzonden.")
     print(f"We zullen u een mail sturen naar {email_address} zodat wij het gewonnen bedrag € {eind_saldo:.2f} kunnen door storten op u rekening ")
-else:
-    invoice = totale_kosten - total_profit_or_loss
+elif saldo <= 0:
+    invoice = startbudget - total_profit_or_loss - total_cost
     print('Casino de Gouden Lepel')
     print('--------------------------------------------------------------------------------')
-    print(f"Uw budget van € {startbudget:.2f} is opgebruikt. \nDe factuur van € {invoice:.2f} wordt verzonden naar het door u opgegeven e-mailadres {email_address} "
-          f"\nIndien de factuur niet binnen 7 werkdagen na ontvangst is betaald, behouden wij ons het recht voor om "
-          f"gerechtelijke stappen te ondernemen om het openstaande bedrag te innen. "
-          f"\nNog een fijne dag gewenst")
+    print(
+        f"Uw budget van € {startbudget:.2f} is opgebruikt. \nDe factuur van € {-invoice:.2f} wordt verzonden naar het door u opgegeven e-mailadres {email_address} "
+        f"\nIndien de factuur niet binnen 7 werkdagen na ontvangst is betaald, behouden wij ons het recht voor om "
+        f"gerechtelijke stappen te ondernemen om het openstaande bedrag te innen. "
+        f"\nNog een fijne dag gewenst")
+else:
+    invoice = startbudget - total_profit_or_loss - total_cost
+    print('Casino de Gouden Lepel')
+    print('--------------------------------------------------------------------------------')
+    print(
+        f"De factuur van € {invoice:.2f} wordt verzonden naar het door u opgegeven e-mailadres {email_address} "
+        f"\nIndien de factuur niet binnen 7 werkdagen na ontvangst is betaald, behouden wij ons het recht voor om "
+        f"gerechtelijke stappen te ondernemen om het openstaande bedrag te innen. "
+        f"\nNog een fijne dag gewenst")
