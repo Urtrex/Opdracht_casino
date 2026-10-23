@@ -1,5 +1,5 @@
 import Library.fixed_values as const
-import Library.Functions as calc
+import Library.calculations as calc
 
 
 def roulette_selection(sum_transaction, stop_playing):

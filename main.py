@@ -1,5 +1,5 @@
 import Library.fixed_values as const
-import Library.Functions as calc
+import Library.calculations as calc
 import Games.Fruit_Machine as fruit
 import Games.Roulette as spin
 
@@ -36,6 +36,8 @@ while saldo >= 0 and not stop_playing:
         sum_transaction, saldo, total_profit_or_loss = spin.roulette_game(saldo, total_profit_or_loss, sum_transaction)
     elif which_game in ['2', 'fruit machine']:
         fruit.play_fruitmachine(saldo)
+    elif which_game in ['3', 'stop']:
+        stop_playing = True
 
 
 saldo = calc.calculate_saldo(startbudget, sum_transaction) + total_profit_or_loss

@@ -75,12 +75,13 @@ def menu(startbudget,sum_transaction,saldo,first_game, form_of_adress, total_pro
 
 def which_game(sum_transaction):
     while True:
-        which_game = input("Welke game wil je spelen?\n"
+        which_game = (input("Welke game wil je spelen?\n"
             "(1) Roulette\n"
-            "(2) Fruit machine\n").lower()
+            "(2) Fruit machine\n"
+            "(3) Stop met spelen\n").lower())
         sum_transaction = calculate_transaction_cost(sum_transaction)
 
-        if which_game in ['1', '2', 'roulette', 'fruit machine']:
+        if which_game in ['1', '2', '3', 'roulette', 'fruit machine', 'stop']:
             return which_game, sum_transaction
 
         print("Ongeldige keuze, probeer opnieuw.")

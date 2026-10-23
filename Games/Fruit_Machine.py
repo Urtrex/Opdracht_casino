@@ -1,18 +1,15 @@
-import Library.Functions as calc
+import Library.calculations as calc
+import random
 
 
 def determine_rolls(round_number):
-    if round_number % 5 == 1:
-        return "kers", "citroen", "ster"
-    elif round_number % 5 == 2:
-        return "kers", "kers", "kers"
-    elif round_number % 5 == 3:
-        return "ster", "ster", "citroen"
-    elif round_number % 5 == 4:
-        return "citroen", "kers", "ster"
+    possible_outcomes = ["kers","citroen", "ster"]
 
+    rol_1 = random.choice(possible_outcomes)
+    rol_2 = random.choice(possible_outcomes)
+    rol_3 = random.choice(possible_outcomes)
 
-    return "ster", "ster", "ster"
+    return rol_1, rol_2, rol_3
 
 
 def determine_profit(rol1, rol2, rol3, stake):
@@ -25,17 +22,20 @@ def determine_profit(rol1, rol2, rol3, stake):
 
 def play_fruitmachine(saldo):
     round_number = 1
+    first_game = True
     while True:
         print(f"\nCasino de Gouden lepel - fruitmachine")
         print("-" * 35)
         print(f"Huidig saldo: € {saldo:.2f}")
+
+        if not first_game:
+            action = input("Druk op enter om te spelen of typ stop om terug te gaan: ").strip().lower()
+            if action == "stop":
+                return saldo
+        else:
+            first_game = False
+
         stake = calc.stake()
-
-        action = input("Druk op enter om te spelen of typ stop om terug te gaan: ").strip().lower()
-        if action == "stop":
-            return saldo
-
-        stake = stake(saldo)
         saldo -= stake
         rol1, rol2, rol3 = determine_rolls(round_number)
         print(f"Rollen: {rol1} | {rol2} | {rol3}")
