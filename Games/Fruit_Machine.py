@@ -20,7 +20,7 @@ def determine_profit(rol1, rol2, rol3, stake):
     return 0.0
 
 
-def play_fruitmachine(saldo):
+def play_fruitmachine(saldo, sum_transaction):
     round_number = 1
     first_game = True
     while True:
@@ -30,6 +30,7 @@ def play_fruitmachine(saldo):
 
         if not first_game:
             action = input("Druk op enter om te spelen of typ stop om terug te gaan: ").strip().lower()
+            sum_transaction = calc.calculate_transaction_cost(sum_transaction)
             if action == "stop":
                 return saldo
         else:

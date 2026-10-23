@@ -36,9 +36,9 @@ while saldo >= 0 and not stop_playing:
         stop_playing, roulette_selection_choice, sum_transaction = spin.roulette_selection(sum_transaction, stop_playing)
         sum_transaction, saldo, total_profit_or_loss = spin.roulette_game(saldo, total_profit_or_loss, sum_transaction)
     elif which_game in ['2', 'fruit machine']:
-        fruit.play_fruitmachine(saldo)
+        fruit.play_fruitmachine(saldo, sum_transaction)
     elif which_game in ['3', 'blackjack']:
-        jack.play_blackjack(saldo)
+        jack.play_blackjack(saldo, sum_transaction)
     elif which_game in ['4', 'stop']:
         stop_playing = True
 

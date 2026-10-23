@@ -46,7 +46,7 @@ def calculate_hand_value(hand):
     return total
 
 
-def play_blackjack(saldo):
+def play_blackjack(saldo,sum_transaction):
     first_game = True
     while True:
         print(f"\nCasino de Gouden lepel - Black Jack")
@@ -55,14 +55,15 @@ def play_blackjack(saldo):
 
         if not first_game:
             action = input("Druk op enter om te spelen of typ stop om terug te gaan: ").strip().lower()
+            sum_transaction = calc.calculate_transaction_cost(sum_transaction)
             if action == "stop":
-                return saldo
+                return saldo , sum_transaction
         else:
             first_game = False
 
         hand_player = []
         hand_dealer = []
-        stake = calc.stake()
+        stake = calc.stake(sum_transaction)
         saldo -= stake
         deck = create_deck()
         random.shuffle(deck)
@@ -83,6 +84,7 @@ def play_blackjack(saldo):
 
         while value_hand_player < 21:
             hit_stand = input(f'HIT of STAND' ).lower().strip()
+            sum_transaction = calc.calculate_transaction_cost(sum_transaction)
 
             if hit_stand == 'hit':
                 card = draw_card(deck, hand_player)

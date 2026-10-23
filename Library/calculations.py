@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 import Library.fixed_values as const
+from main import sum_transaction
 
 
 #FUNCTIONS
@@ -89,8 +90,9 @@ def which_game(sum_transaction):
 
 
 
-def stake():
+def stake(sum_transaction):
     stake = float(input(f'Hoeveel euro wil je inzetten? '))
+    sum_transaction = calculate_transaction_cost(sum_transaction)
 
     return stake
 
