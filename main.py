@@ -2,6 +2,7 @@ import Library.fixed_values as const
 import Library.calculations as calc
 import Games.Fruit_Machine as fruit
 import Games.Roulette as spin
+import Games.blackjack as jack
 
 total_profit_or_loss = 0
 roulette_selection = ""
@@ -35,8 +36,10 @@ while saldo >= 0 and not stop_playing:
         stop_playing, roulette_selection_choice, sum_transaction = spin.roulette_selection(sum_transaction, stop_playing)
         sum_transaction, saldo, total_profit_or_loss = spin.roulette_game(saldo, total_profit_or_loss, sum_transaction)
     elif which_game in ['2', 'fruit machine']:
-        fruit.play_fruitmachine(saldo)
-    elif which_game in ['3', 'stop']:
+        fruit.play_fruitmachine(saldo, sum_transaction)
+    elif which_game in ['3', 'blackjack']:
+        jack.play_blackjack(saldo, sum_transaction)
+    elif which_game in ['4', 'stop']:
         stop_playing = True
 
 

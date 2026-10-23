@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 import Library.fixed_values as const
+from main import sum_transaction
 
 
 #FUNCTIONS
@@ -78,18 +79,20 @@ def which_game(sum_transaction):
         which_game = (input("Welke game wil je spelen?\n"
             "(1) Roulette\n"
             "(2) Fruit machine\n"
-            "(3) Stop met spelen\n").lower())
+            "(3) Blackjack\n"
+            "(4) Stop met spelen\n").lower())
         sum_transaction = calculate_transaction_cost(sum_transaction)
 
-        if which_game in ['1', '2', '3', 'roulette', 'fruit machine', 'stop']:
+        if which_game in ['1', '2', '3', '4', 'roulette', 'fruit machine', 'blackjack','stop']:
             return which_game, sum_transaction
 
         print("Ongeldige keuze, probeer opnieuw.")
 
 
 
-def stake():
+def stake(sum_transaction):
     stake = float(input(f'Hoeveel euro wil je inzetten? '))
+    sum_transaction = calculate_transaction_cost(sum_transaction)
 
     return stake
 
