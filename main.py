@@ -3,6 +3,7 @@ import Library.calculations as calc
 import Games.Fruit_Machine as fruit
 import Games.Roulette as spin
 import Games.blackjack as jack
+import profiles as prof
 
 total_profit_or_loss = 0
 roulette_selection = ""
@@ -10,7 +11,8 @@ first_game = True
 stop_playing = False
 
 print(f'Welkom bij Casino de Gouden Lepel')
-first_name, sum_transaction, surname, date_of_birth, email_address, form_of_adress = calc.greeting()
+
+first_name, sum_transaction, surname, date_of_birth, email_address, form_of_adress = prof.greeting()
 birth_year, greeting = calc.time_of_day(date_of_birth)
 
 if calc.age_check(birth_year):
