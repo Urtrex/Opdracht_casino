@@ -4,6 +4,17 @@ import Library.fixed_values as const
 
 
 #FUNCTIONS
+def add_saldo():
+    global current_player
+
+    if current_player is None:
+        print(f"Fout: Er is op dit moment geen account ingelogd.")
+    extra_budget = float(input(f"Hoeveel euro wil je toevoegen aan je saldo? "))
+    player[current_player]["saldo"] += extra_budget
+
+    new_saldo = players[current_player]["saldo"]
+    print(f"Succes met spelen! Je saldo is nu: € {new_saldo:.2f}")
+
 def calculate_transaction_cost(sum_transaction):
     return sum_transaction + const.TRANSACTION_COSTS
 

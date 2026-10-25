@@ -12,6 +12,20 @@ stop_playing = False
 
 print(f'Welkom bij Casino de Gouden Lepel')
 
+prof.show_user_menu()
+if prof.current_player is None or prof.current_player == "admin":
+    print("Er is geen geldige speler ingelogd.\n"
+          "Nog een fijne dag!!!")
+    exit()
+
+player_data = prof.players[prof.current_player]
+first_name = player_data["first_name"]
+date_of_birth = player_data["date_of_birth"]
+email_adress = player_data["email_adress"]
+form_of_adress = player_data["form_of_adress"]
+sum_transaction = player_data.get("sum_transaction", 0)
+
+
 first_name, sum_transaction, surname, date_of_birth, email_address, form_of_adress = prof.greeting()
 birth_year, greeting = calc.time_of_day(date_of_birth)
 
