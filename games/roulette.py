@@ -1,18 +1,20 @@
-import Library.fixed_values as const
-import Library.calculations as calc
+import library.fixed_values as const
+import library.calculations as calc
 
 
 def roulette_selection(sum_transaction, stop_playing):
 
     roulette_selection_choice = ""
     while roulette_selection_choice not in ['1', '2', '3', '4', 'rood', 'zwart', 'even', 'oneven', '0', 'stop'] and not stop_playing:
-            roulette_selection_choice = input(f"Kies één van de volgende opties:"
+
+            roulette_selection_choice, sum_transaction = calc.transaction_input(f"Kies één van de volgende opties:"
                            f"\n1. Rood"
                            f"\n2. Zwart"
                            f"\n3. Even"
                            f"\n4. Oneven"
-                           f"\n0. Stop \n").lower()
-            sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+                           f"\n0. Stop \n", sum_transaction)
+            roulette_selection_choice = roulette_selection_choice.lower()
+
             if roulette_selection_choice in ['1' , 'rood']:
                 roulette_selection_choice = '1'
                 break
@@ -36,7 +38,7 @@ def roulette_selection(sum_transaction, stop_playing):
 
 
 def roulette_game(saldo, total_profit_or_loss, sum_transaction):
-    stake = calc.stake()
+    stake = calc.stake(sum_transaction)
     sum_transaction = calc.calculate_transaction_cost(sum_transaction)
     saldo -= const.TRANSACTION_COSTS
     if stake <= 0:

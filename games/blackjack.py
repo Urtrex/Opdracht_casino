@@ -1,6 +1,6 @@
 import random
-import Library.fixed_values as const
-import Library.calculations as calc
+import library.fixed_values as const
+import library.calculations as calc
 
 def create_deck():
     deck = [f"{rank}{suit}" for suit in const.SUITS for rank in const.RANKS]
@@ -54,8 +54,8 @@ def play_blackjack(saldo,sum_transaction):
         print(f"Huidig saldo: € {saldo:.2f}")
 
         if not first_game:
-            action = input("Druk op enter om te spelen of typ stop om terug te gaan: ").strip().lower()
-            sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+            action, sum_transaction = calc.transaction_input(f"Druk op enter om te spelen of typ stop om terug te gaan: ", sum_transaction)
+            action = action.strip().lower()
             if action == "stop":
                 return saldo , sum_transaction
         else:
@@ -83,8 +83,8 @@ def play_blackjack(saldo,sum_transaction):
         print(f"Jouw totale waarde: {value_hand_player}")
 
         while value_hand_player < 21:
-            hit_stand = input(f'HIT of STAND' ).lower().strip()
-            sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+            hit_stand, sum_transaction = calc.transaction_input(f'HIT of STAND ', sum_transaction)
+            hit_stand = hit_stand.lower().strip()
 
             if hit_stand == 'hit':
                 card = draw_card(deck, hand_player)

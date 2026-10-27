@@ -1,8 +1,8 @@
-import Library.fixed_values as const
-import Library.calculations as calc
-import Games.Fruit_Machine as fruit
-import Games.Roulette as spin
-import Games.blackjack as jack
+import library.fixed_values as const
+import library.calculations as calc
+import games.fruit_machine as fruit
+import games.roulette as spin
+import games.blackjack as jack
 import profiles as prof
 
 total_profit_or_loss = 0
@@ -41,8 +41,8 @@ if calc.age_check(birth_year):
     exit(1)
 
 
-startbudget = float(input(f'{greeting} {form_of_adress}, \nHoeveel euro(€) heeft u vandaag te spenderen? '))
-sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+startbudget, sum_transaction = calc.transaction_input(f'{greeting} {form_of_adress}, \nHoeveel euro(€) heeft u vandaag te spenderen? ', sum_transaction)
+startbudget = float(startbudget)
 saldo = calc.calculate_saldo(startbudget, sum_transaction)
 
 while saldo >= 0 and not stop_playing:
@@ -65,12 +65,12 @@ print('Casino de Gouden Lepel')
 print('--------------------------------------------------------------------------------')
 print(f"\nBeste, {form_of_adress}!")
 if total_profit_or_loss > total_cost:
-    eind_saldo = startbudget + total_profit_or_loss - total_cost
+    end_saldo = startbudget + total_profit_or_loss - total_cost
     print(f"U heeft in totaal € {total_profit_or_loss:.2f} gewonnen aan de roulette tafel.")
     print(f"Na aftrek van de vaste kosten en transactie kosten (€ {total_cost:.2f}) ")
-    print(f"Gaat u naar huis met een prachtig eindbedrag van: € {eind_saldo:.2f}!")
+    print(f"Gaat u naar huis met een prachtig eindbedrag van: € {end_saldo:.2f}!")
     print("\nEr wordt uiteraard GEEN factuur naar u verzonden.")
-    print(f"We zullen u een mail sturen naar {email_address} zodat wij het gewonnen bedrag € {eind_saldo:.2f} kunnen door storten op u rekening ")
+    print(f"We zullen u een mail sturen naar {email_address} zodat wij het gewonnen bedrag € {end_saldo:.2f} kunnen door storten op u rekening ")
 elif saldo <= 0:
     invoice = startbudget - total_profit_or_loss - total_cost
     print(

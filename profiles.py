@@ -1,4 +1,4 @@
-import Library.calculations as calc
+import library.calculations as calc
 from main import sum_transaction
 
 players = {}
@@ -72,21 +72,16 @@ def show_user_menu(current_user,):
 def greeting():
     sum_transaction = 0
 
-    first_name = input(f'Wat is uw Voornaam ? ')
-    sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+    first_name, sum_transaction = calc.transaction_input(f'Wat is uw Voornaam ? ', sum_transaction)
 
-    surname = input(f'Wat is uw Achternaam ? ')
-    sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+    surname, sum_transaction = calc.transaction_input(f'Wat is uw Achternaam ? ', sum_transaction)
 
-    date_of_birth = input(f'Wat is u geboortedatum ? (dd-mm-yyyy) ')
-    sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+    date_of_birth, sum_transaction = calc.transaction_input(f'Wat is u geboortedatum ? (dd-mm-yyyy) ', sum_transaction)
 
-    email_address = input(f'Wat is u email adres? ')
-    sum_transaction = calc.calculate_transaction_cost(sum_transaction)
+    email_address, sum_transaction = calc.transaction_input(f'Wat is u email adres? ', sum_transaction)
 
-    gender = input(f'Wat is u geslacht ? (M/V/X) ').upper()
-    sum_transaction = calc.calculate_transaction_cost(sum_transaction)
-
+    gender, sum_transaction = calc.transaction_input('Wat is u geslacht ? (M/V/X) ', sum_transaction)
+    gender = gender.upper()
     if gender == 'M':
         form_of_adress = f'meneer {surname}'
     elif gender == 'V':

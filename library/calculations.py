@@ -1,6 +1,6 @@
 from datetime import datetime
 import random
-import Library.fixed_values as const
+import library.fixed_values as const
 
 
 #FUNCTIONS
@@ -14,6 +14,12 @@ def add_saldo():
 
     new_saldo = players[current_player]["saldo"]
     print(f"Succes met spelen! Je saldo is nu: € {new_saldo:.2f}")
+
+def transaction_input(prompt, sum_transaction):
+    result = input(prompt)
+    sum_transaction = calculate_transaction_cost(sum_transaction)
+
+    return result, sum_transaction
 
 def calculate_transaction_cost(sum_transaction):
     return sum_transaction + const.TRANSACTION_COSTS
@@ -59,12 +65,12 @@ def menu(startbudget,sum_transaction,saldo,first_game, form_of_adress, total_pro
 
 def which_game(sum_transaction):
     while True:
-        which_game = (input("Welke game wil je spelen?\n"
+        which_game, sum_transaction = transaction_input("Welke game wil je spelen?\n"
             "(1) Roulette\n"
             "(2) Fruit machine\n"
             "(3) Blackjack\n"
-            "(4) Stop met spelen\n").lower())
-        sum_transaction = calculate_transaction_cost(sum_transaction)
+            "(4) Stop met spelen\n", sum_transaction)
+        which_game = which_game.lower()
 
         if which_game in ['1', '2', '3', '4', 'roulette', 'fruit machine', 'blackjack','stop']:
             return which_game, sum_transaction
@@ -74,10 +80,9 @@ def which_game(sum_transaction):
 
 
 def stake(sum_transaction):
-    stake = float(input(f'Hoeveel euro wil je inzetten? '))
-    sum_transaction = calculate_transaction_cost(sum_transaction)
+    stake, sum_transaction = transaction_input(f'Hoeveel euro wil je inzetten? ', sum_transaction)
 
-    return stake
+    return stake, sum_transaction
 
 
 def calculate_saldo(startbudget, sum_transaction):
