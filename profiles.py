@@ -1,5 +1,4 @@
 import library.calculations as calc
-from main import sum_transaction
 
 players = {}
 current_user = None
@@ -42,8 +41,9 @@ def create_account(first_name, surname, date_of_birth, email_address, form_of_ad
 
     current_user = player_key
 
-def show_user_menu(sum_transaction):
+def show_user_menu():
     global current_user
+    sum_transaction = 0
     while True:
         print("\n===== ACCOUNT MENU =====")
         print("1. Nieuw account")
@@ -55,7 +55,7 @@ def show_user_menu(sum_transaction):
         else:
             print("3. Saldo opwaarderen")
 
-        print("0. Terug naar menu")
+        print("0. spelen")
         print("========================")
 
         if current_user == 'admin':
@@ -70,9 +70,9 @@ def show_user_menu(sum_transaction):
             case "1":
                 new_user()
             case "2":
-                change_user()
+                sum_transaction = change_user(sum_transaction)
             case "3" if current_user is not None and current_user != "admin":
-                add_saldo()
+                sum_transaction = add_saldo(sum_transaction)
             case "4" if current_user == "admin":
                 all_users()
 
@@ -97,6 +97,8 @@ def add_saldo(sum_transaction):
 
     new_saldo = players[current_user]["saldo"]
     print(f"Succes met spelen! Je saldo is nu: € {new_saldo:.2f}")
+
+    return sum_transaction
 
 def greeting():
     sum_transaction = 0

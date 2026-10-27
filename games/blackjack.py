@@ -2,6 +2,8 @@ import random
 import library.fixed_values as const
 import library.calculations as calc
 
+
+
 def create_deck():
     deck = [f"{rank}{suit}" for suit in const.SUITS for rank in const.RANKS]
 
@@ -63,7 +65,7 @@ def play_blackjack(saldo,sum_transaction):
 
         hand_player = []
         hand_dealer = []
-        stake = calc.stake(sum_transaction)
+        stake, sum_transaction = calc.stake(sum_transaction)
         saldo -= stake
         deck = create_deck()
         random.shuffle(deck)

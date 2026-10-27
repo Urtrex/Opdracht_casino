@@ -71,7 +71,7 @@ def which_game(sum_transaction):
 def stake(sum_transaction):
     stake, sum_transaction = transaction_input(f'Hoeveel euro wil je inzetten? ', sum_transaction)
 
-    return stake, sum_transaction
+    return float(stake), sum_transaction
 
 
 def calculate_saldo(startbudget, sum_transaction):
