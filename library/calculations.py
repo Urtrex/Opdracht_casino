@@ -1,38 +1,17 @@
 from datetime import datetime
 import random
-import Library.fixed_values as const
+import library.fixed_values as const
 
 
 #FUNCTIONS
+def transaction_input(prompt, sum_transaction):
+    result = input(prompt)
+    sum_transaction = calculate_transaction_cost(sum_transaction)
+
+    return result, sum_transaction
+
 def calculate_transaction_cost(sum_transaction):
     return sum_transaction + const.TRANSACTION_COSTS
-
-def greeting():
-    sum_transaction = 0
-
-    first_name = input(f'Wat is uw Voornaam ? ')
-    sum_transaction = calculate_transaction_cost(sum_transaction)
-
-    surname = input(f'Wat is uw Achternaam ? ')
-    sum_transaction = calculate_transaction_cost(sum_transaction)
-
-    date_of_birth = input(f'Wat is u geboortedatum ? (dd-mm-yyyy) ')
-    sum_transaction = calculate_transaction_cost(sum_transaction)
-
-    email_address = input(f'Wat is u email adres? ')
-    sum_transaction = calculate_transaction_cost(sum_transaction)
-
-    gender = input(f'Wat is u geslacht ? (M/V/X) ').upper()
-    sum_transaction = calculate_transaction_cost(sum_transaction)
-
-    if gender == 'M':
-        form_of_adress = f'meneer {surname}'
-    elif gender == 'V':
-        form_of_adress = f'mevrouw {surname}'
-    else:
-        form_of_adress = f'{first_name} {surname}'
-
-    return first_name, sum_transaction, surname, date_of_birth, email_address, form_of_adress
 
 def time_of_day(date_of_birth):
     hour = datetime.now().hour
@@ -75,23 +54,24 @@ def menu(startbudget,sum_transaction,saldo,first_game, form_of_adress, total_pro
 
 def which_game(sum_transaction):
     while True:
-        which_game = (input("Welke game wil je spelen?\n"
+        which_game, sum_transaction = transaction_input("Welke game wil je spelen?\n"
             "(1) Roulette\n"
             "(2) Fruit machine\n"
-            "(3) Stop met spelen\n").lower())
-        sum_transaction = calculate_transaction_cost(sum_transaction)
+            "(3) Blackjack\n"
+            "(4) Stop met spelen\n", sum_transaction)
+        which_game = which_game.lower()
 
-        if which_game in ['1', '2', '3', 'roulette', 'fruit machine', 'stop']:
+        if which_game in ['1', '2', '3', '4', 'roulette', 'fruit machine', 'blackjack','stop']:
             return which_game, sum_transaction
 
         print("Ongeldige keuze, probeer opnieuw.")
 
 
 
-def stake():
-    stake = float(input(f'Hoeveel euro wil je inzetten? '))
+def stake(sum_transaction):
+    stake, sum_transaction = transaction_input(f'Hoeveel euro wil je inzetten? ', sum_transaction)
 
-    return stake
+    return float(stake), sum_transaction
 
 
 def calculate_saldo(startbudget, sum_transaction):
